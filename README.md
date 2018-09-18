@@ -19,7 +19,9 @@ and your payload is not just a trivial script or something equally simple.
 Alpine is a good choice for these small payloads, which also often just have
 pure-Python dependencies, avoiding any trouble with the different libc.
 
-To build both versions with clean caches and time each build, use this:
+There is a simple and an optimized version of the Dockerfile,
+with a few magic incantations added to the latter.
+To build both versions with clean caches and timings for each build, use this:
 
 ```sh
 docker system prune --all --force
