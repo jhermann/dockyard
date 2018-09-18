@@ -1,0 +1,11 @@
+# docker build -t biopy3 -f Dockerfile.optimized .
+FROM ubuntu:bionic
+ENV LANG=en_US.UTF-8
+RUN env LANG=C apt-get update -qq -o Acquire::Languages=none \
+    && env LANG=C DEBIAN_FRONTEND=noninteractive apt-get install \
+        -yqq --no-install-recommends -o Dpkg::Options::=--force-unsafe-io \
+        locales ca-certificates python3 \
+    && echo "$LANG UTF-8" >/etc/locale.gen \
+    && locale-gen --lang "$LANG" \
+    && apt-get clean && rm -rf "/var/lib/apt/lists"/*
+ENTRYPOINT ["python3"]
