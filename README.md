@@ -50,7 +50,7 @@ Here are the objectives for each of the changes as shown above:
 * ``--no-install-recommends`` limits the installed package set to what you listed explicitly,
   and hard dependencies of that list – e.g. ``nodejs`` will otherwise install a *full* Python 2.7 for no good reason,
   instead of just ``python-minimal``. That improves both build times and image size.
-* ``-o Dpkg::Options::=--force-unsafe-io`` switches off ``sync`` system calls after package expansion, speeding up package installation –
+* ``-o Dpkg::Options::=--force-unsafe-io`` switches off ``sync`` system calls during package expansion, speeding up package installation –
   since data is saved to a container layer shortly afterwards anyway, this is safe despite the option's name. ☺
 * ``apt-get clean && rm -rf "/var/lib/apt/lists"/*`` removes any cached packages and metadata *before* the layer is stored.
   Both are things that we simply do not need in an immutable container.
