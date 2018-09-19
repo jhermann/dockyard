@@ -40,6 +40,20 @@ The image sizes show a much clearer picture:
 **129.6 MiB** for the ‘optimized’ version,
 and **176.5 MiB** for the ‘simple’ one.
 
-![biopy3-diff](https://raw.githubusercontent.com/jhermann/docker-calves/master/assets/biopy3-diff.png)
+| Differences between simple and optimized Dockerfile versions |
+| :---: |
+| ![biopy3-diff](https://raw.githubusercontent.com/jhermann/docker-calves/master/assets/biopy3-diff.png) |
 
-**TODO** Explain ‘optimization’ options / commands and their reason.
+Here are the objectives for each of the changes as shown above:
+
+* ``-o Acquire::Languages=none`` speeds up package list downloads by ignoring unneeded translation files.
+* ``--no-install-recommends`` limits the installed package set to what you listed explicitly,
+  and hard dependencies of that list – e.g. ``nodejs`` will otherwise install a *full* Python 2.7 for no good reason,
+  instead of just ``python-minimal``. That improves both build times and image size.
+* ``-o Dpkg::Options::=--force-unsafe-io`` switches off ``sync`` system calls after package expansion, speeding up package installation –
+  since data is saved to a container layer shortly afterwards anyway, this is safe despite the option's name. ☺
+* ``apt-get clean && rm -rf "/var/lib/apt/lists"/*`` removes any cached packages and metadata *before* the layer is stored.
+  Both are things that we simply do not need in an immutable container.
+
+And the ``env LANG=C`` before the ``apt-get`` commands suppresses
+locale initialization warnings since locales are not generated yet.
