@@ -21,7 +21,7 @@ RUN env LANG=C apt-get update -qq -o Acquire::Languages=none \
         -yqq --no-install-recommends -o Dpkg::Options::=--force-unsafe-io \
         python3.7 \
     && wget -qO- https://bootstrap.pypa.io/get-pip.py | python3.7 \
-    && python3.7 -m pip install -U pip setuptools wheel \
+    && python3.7 -m pip install --no-cache-dir -U pip setuptools wheel \
     && apt-get purge -yqq gnupg && apt-get autoremove -yqq \
     && apt-get clean && rm -rf "/var/lib/apt/lists"/*
 ENTRYPOINT ["python3.7"]
