@@ -1,0 +1,27 @@
+# docker build -t biopy37 -f Dockerfile.deadsnakes .
+#
+# This packages the newest Python 3 release as available from
+# the Deadsnakes PPA.
+
+FROM ubuntu:bionic
+ENV LANG=en_US.UTF-8
+COPY pubkey.6A755776.2017-07-29.deadsnakes /root
+RUN env LANG=C apt-get update -qq -o Acquire::Languages=none \
+    && env LANG=C DEBIAN_FRONTEND=noninteractive apt-get install \
+        -yqq --no-install-recommends -o Dpkg::Options::=--force-unsafe-io \
+        locales ca-certificates gnupg wget \
+    && echo "$LANG UTF-8" >/etc/locale.gen \
+    && locale-gen --lang "$LANG" \
+    && echo >/etc/apt/sources.list.d/deadsnakes-ubuntu-ppa-bionic.list \
+        "deb http://ppa.launchpad.net/deadsnakes/ppa/ubuntu bionic main" \
+    && env APT_KEY_DONT_WARN_ON_DANGEROUS_USAGE=true \
+        apt-key add /root/pubkey.6A755776.2017-07-29.deadsnakes \
+    && env LANG=C apt-get update -qq -o Acquire::Languages=none \
+    && env LANG=C DEBIAN_FRONTEND=noninteractive apt-get install \
+        -yqq --no-install-recommends -o Dpkg::Options::=--force-unsafe-io \
+        python3.7 \
+    && wget -qO- https://bootstrap.pypa.io/get-pip.py | python3.7 \
+    && python3.7 -m pip install -U pip setuptools wheel \
+    && apt-get purge -yqq gnupg && apt-get autoremove -yqq \
+    && apt-get clean && rm -rf "/var/lib/apt/lists"/*
+ENTRYPOINT ["python3.7"]

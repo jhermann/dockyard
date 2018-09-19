@@ -9,6 +9,8 @@ optimizations already baked in.
 
 ## Bionic + Python 3
 
+### Python 3.6 (Ubuntu default)
+
 This shows how to create a Python 3 image based on *Ubuntu Bionic*.
 It is roughly 50 MiB larger than the Alpine-based equivalent,
 but also comes with runtime essentials like
@@ -57,3 +59,17 @@ Here are the objectives for each of the changes as shown above:
 
 And the ``env LANG=C`` before the ``apt-get`` commands suppresses
 locale initialization warnings since locales are not generated yet.
+
+
+### Python 3.7 (Deadsnakes PPA)
+
+In ``biopy3/Dockerfile.deadsnakes`` the newest Python version is added,
+as available from the Deadsnakes PPA.
+
+Due to packging mechanics, this gets installed in addition to Ubuntu's default Python 3.6
+– the resulting image size is 168.9 MiB (i.e. ~40 MiB more).
+That means it is sensible to stick to 3.6 as long as you do not really use new language features
+only available in version 3.7.
+Another factor pointing in the same direction is that timely security updates are not guaranteed for the PPA release channel.
+
+**TODO:** Look at other options like Conda, pyenv, or PyRun.
