@@ -1,3 +1,5 @@
+.. _dpkg-in-docker:
+
 Building Debian Packages in Docker
 ==================================
 
