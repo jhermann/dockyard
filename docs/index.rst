@@ -36,10 +36,24 @@ See :doc:`CONTRIBUTING` for more.
 Documentation Contents
 ----------------------
 
-.. toctree::
-    :maxdepth: 4
+..  toctree::
+    :maxdepth: 2
+    :caption: Base Images
 
     usage
+
+
+..  toctree::
+    :maxdepth: 2
+    :caption: How-Tos
+
+    packaging-howto
+
+
+..  toctree::
+    :maxdepth: 2
+    :caption: Miscellaneous
+
     CONTRIBUTING
     LICENSE
 
