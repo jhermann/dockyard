@@ -1,4 +1,5 @@
 # Shim for Sphinx and rituals
+# -*- coding: utf-8 -*-
 """
 Copyright (c) 2018  Jürgenm Hermann
 
