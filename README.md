@@ -73,3 +73,29 @@ only available in version 3.7.
 Another factor pointing in the same direction is that timely security updates are not guaranteed for the PPA release channel.
 
 **TODO:** Look at other options like Conda, pyenv, or PyRun.
+
+
+## Contributing
+
+Contributing to this project is easy, and reporting an issue or
+adding to the documentation also improves things for every user.
+You don’t need to be a developer to contribute.
+See [CONTRIBUTING](https://github.com/jhermann/dockyard/blob/master/CONTRIBUTING.md) for more.
+
+As a documentation author or developer,
+to **create a working directory** for this project,
+call these commands:
+
+```sh
+git clone "https://github.com/jhermann/dockyard.git"
+cd "dockyard"
+command . .env --yes --develop  # add '--virtualenv /usr/bin/virtualenv' for Python2
+invoke build --docs test check
+```
+
+For this to work, you might also need to follow some
+[setup procedures](https://py-generic-project.readthedocs.io/en/latest/installing.html#quick-setup)
+to make the necessary basic commands available on *Linux*, *Mac OS X*, and *Windows*.
+
+To **start a watchdog that auto-rebuilds documentation** and reloads the opened browser tab on any change,
+call ``invoke docs -w -b`` (stop the watchdog using the ``-k`` option).
