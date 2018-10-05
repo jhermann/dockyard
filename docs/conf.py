@@ -20,6 +20,13 @@ sys.path.insert(0, os.path.abspath(".."))
 sys.path.insert(0, os.path.abspath("../src"))
 from setup import project as meta
 
+def setup(app):
+    """See https://docs.readthedocs.io/en/latest/guides/adding-custom-css.html"""
+    if os.path.exists('_static/css/custom.css'):
+        app.add_stylesheet('css/custom.css')
+    if os.path.exists('_static/js/custom.js'):
+        app.add_javascript('js/custom.js')
+
 on_rtd = os.environ.get('READTHEDOCS', None) == 'True'
 if not on_rtd:
     import sphinx_rtd_theme
@@ -110,8 +117,6 @@ if not on_rtd:
 
     # Add any paths that contain custom themes here, relative to this directory.
     html_theme_path = [sphinx_rtd_theme.get_html_theme_path()]
-
-html_style = 'css/custom.css'
 
 # Theme options are theme-specific and customize the look and feel of a theme
 # further.  For a list of options available for each theme, see the

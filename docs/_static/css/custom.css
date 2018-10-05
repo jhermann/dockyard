@@ -1,6 +1,8 @@
 /* Custom styles */
 
-@import url("theme.css");
+body {
+    color: #000;
+}
 
 code, .rst-content tt, .rst-content code {
     font-size: 95%;
