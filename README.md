@@ -23,7 +23,7 @@ call these commands:
 ```sh
 git clone "https://github.com/jhermann/dockyard.git"
 cd "dockyard"
-command . .env --yes --develop  # add '--virtualenv /usr/bin/virtualenv' for Python2
+command . .env --yes
 invoke docs -b
 ```
 
