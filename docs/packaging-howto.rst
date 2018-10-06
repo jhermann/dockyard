@@ -73,8 +73,7 @@ Finally, the third ``RUN`` builds the package for your project and makes a copy 
 for the build script to pick them up.
 
 See the comments in the Dockerfile for more details,
-and `the README <https://github.com/jhermann/dockyard#dockyard>`_
-for an explanation of ‘special’ ``apt`` arguments,
+and :ref:`biopy3` for an explanation of ‘special’ ``apt`` arguments,
 used to speed up the build process and keep image sizes small.
 
 To adapt this to your own project, you have to change these things:
