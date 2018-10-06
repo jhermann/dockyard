@@ -207,7 +207,7 @@ change the variables in the first section to define different versions and files
 
 
     %:
-            dh $@ --with python-virtualenv $(DH_VENV_ARGS)
+            dh $@ --with python-virtualenv
 
     .PHONY: override_dh_virtualenv
 
@@ -233,7 +233,9 @@ because they're on the ``PATH``.
 Change the NPM package name to what you want to install.
 ``npm`` uses either a local ``.npmrc`` file in the project root,
 or else the ``~/.npmrc`` one.
-Add local repository URLs and credentials to one of these files.
+Add local repository URLs and credentials to one of these files
+– when building in a container it obviously has to be the project-local one
+so it becomes part of the build context.
 
 .. _`NodeSource packages`: https://github.com/nodesource/distributions
 .. _`Angular Universal`: https://universal.angular.io/
