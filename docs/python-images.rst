@@ -26,11 +26,24 @@
 Python Base Images
 =============================================================================
 
+Official Docker Community Images
+================================
+
+The `Docker "Official Images"`_ for Python 3 based on ``debian:stretch-slim`` (55.3 MiB) are around 140 MiB in size.
+Namely, ``python:3.6-slim-stretch`` comes in at 137.9 MiB,
+while Python 3.7 is a little bigger at 142.7 MiB.
+The ones based on Alpine have 74.2 MiB and 78.1 MiB.
+
+The Dockerfiles and related sources for the images can be found at `docker-library/python`_.
+
+.. _`Docker "Official Images"`: https://github.com/docker-library/official-images#docker-official-images
+.. _`docker-library/python`: https://github.com/docker-library/python
+
 
 .. _biopy3:
 
-Bionic + Python 3
-=================
+Ubuntu Bionic + Python 3
+========================
 
 Python 3.6 (Ubuntu default)
 ---------------------------
@@ -102,10 +115,8 @@ In ``biopy3/Dockerfile.deadsnakes`` the newest Python version is added,
 as available from the Deadsnakes PPA.
 
 Due to packaging mechanics, this gets installed in addition to Ubuntu's
-default Python 3.6 – the resulting image size is 168.9 MiB (i.e. ~40 MiB
-more). That means it is sensible to stick to 3.6 as long as you do not
-really use new language features only available in version 3.7. Another
-factor pointing in the same direction is that timely security updates
-are not guaranteed for the PPA release channel.
+default Python 3.6 – the resulting image size is 168.9 MiB (i.e. ~40 MiB more).
+That means this is **not** a sensible option compared to images like ``python:3.7-slim-stretch``.
+Also, timely security updates are not guaranteed for the PPA release channel.
 
 **TODO:** Look at other options like Conda, pyenv, or PyRun.
