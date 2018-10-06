@@ -11,6 +11,14 @@ project = dict(
     name='dockyard',
     version='0.1.0',
     author='Juergen Hermann',
+    url='https://github.com/jhermann/dockyard',
     description='Basic Dockerfile templates and other Docker build helpers',
     long_description=__doc__,
 )
+
+if __name__ == '__main__':
+    import sys
+
+    for opt in sys.argv[1:]:
+        if opt.startswith('--') and opt[2:] in project:
+            print(project[opt[2:]])
