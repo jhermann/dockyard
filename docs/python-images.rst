@@ -101,7 +101,7 @@ Python 3.7 (Deadsnakes PPA)
 In ``biopy3/Dockerfile.deadsnakes`` the newest Python version is added,
 as available from the Deadsnakes PPA.
 
-Due to packging mechanics, this gets installed in addition to Ubuntu's
+Due to packaging mechanics, this gets installed in addition to Ubuntu's
 default Python 3.6 – the resulting image size is 168.9 MiB (i.e. ~40 MiB
 more). That means it is sensible to stick to 3.6 as long as you do not
 really use new language features only available in version 3.7. Another
