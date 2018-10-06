@@ -49,7 +49,7 @@ Python 3.6 (Ubuntu default)
 ---------------------------
 
 This shows how to create a Python 3 image based on *Ubuntu Bionic*. It
-is roughly 50 MiB larger than the Alpine-based equivalent, but also
+is roughly 55 MiB larger than the Alpine-based equivalent, but also
 comes with runtime essentials like enabled locale, CA certificates, and
 ``glibc`` instead of the often problematic ``musl libc``.
 
