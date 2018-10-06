@@ -54,14 +54,21 @@ Also the package metadata is shown for a quick visual check if everything looks 
 
 .. rubric:: The Dockerfile
 
-This is the complete Dockerfile, the most important things are the ``RUN`` instructions.
+This is the start of the Dockerfile, setting up some parameters used in the ``RUN`` instructions,
+and pulling the base image.
 
 .. literalinclude:: ../dh-virtualenv/Dockerfile.build
     :language: docker
+    :end-before: Install build tools
 
 The first ``RUN`` installs all the build dependencies on top of the base image.
 This also includes installing NodeJS,
 as explained in more detail by :ref:`node-dh-venv` further below.
+
+.. literalinclude:: ../dh-virtualenv/Dockerfile.build
+    :language: docker
+    :start-at: Install build tools
+    :end-before: Uncomment and adapt
 
 The second one installs the latest dh-virtualenv version,
 and also updates the Python packaging toolset to the latest versions.
@@ -69,8 +76,17 @@ The ``ADD`` instruction above it downloads the pre-built dh-virtualenv DEB from 
 – this way we get the same version across all platforms,
 and can also rely on the features of the latest release.
 
+.. literalinclude:: ../dh-virtualenv/Dockerfile.build
+    :language: docker
+    :start-at: Uncomment and adapt
+    :end-before: Build project
+
 Finally, the third ``RUN`` builds the package for your project and makes a copy of the resulting files,
 for the build script to pick them up.
+
+.. literalinclude:: ../dh-virtualenv/Dockerfile.build
+    :language: docker
+    :start-at: Build project
 
 See the comments in the Dockerfile for more details,
 and :ref:`biopy3` for an explanation of ‘special’ ``apt`` arguments,
@@ -78,12 +94,12 @@ used to speed up the build process and keep image sizes small.
 
 To adapt this to your own project, you have to change these things:
 
- * Remove the instructions and commands for installing NodeJS, if you don't need that
-   (``ARG NODEREPO``, and several commands near the end of the first ``RUN`` instruction).
- * Check the second part of the package list in the first ``apt`` call –
-   remove and add libraries depending on your project's build dependencies.
- * As mentioned in the comments, you can activate a local Python repository
-   by setting ``PIP_*`` environment variables accordingly.
+* Remove the instructions and commands for installing NodeJS, if you don't need that
+  (``ARG NODEREPO``, and several commands near the end of the first ``RUN`` instruction).
+* Check the second part of the package list in the first ``apt`` call –
+  remove and add libraries depending on your project's build dependencies.
+* As mentioned in the comments, you can activate a local Python repository
+  by setting ``PIP_*`` environment variables accordingly.
 
 
 .. rubric:: The .dockerignore file
