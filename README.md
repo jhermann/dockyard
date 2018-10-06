@@ -24,7 +24,7 @@ call these commands:
 git clone "https://github.com/jhermann/dockyard.git"
 cd "dockyard"
 command . .env --yes --develop  # add '--virtualenv /usr/bin/virtualenv' for Python2
-invoke build --docs test check
+invoke docs -b
 ```
 
 For this to work, you might also need to follow some
