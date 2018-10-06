@@ -57,7 +57,7 @@ Documentation Contents
     :maxdepth: 2
     :caption: Base Images
 
-    usage
+    python-images
 
 
 ..  toctree::
