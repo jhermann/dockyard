@@ -11,7 +11,7 @@
 #   https://github.com/pyenv/pyenv/tree/master/plugins/python-build
 #
 # Sizes:
-#   Full = 314.2 MiB; reduced = 171.4 MiB; reduced (tk) = ??? MiB
+#   Full = 314.2 MiB; reduced = 171.4 MiB; reduced (tk) = 192.9 MiB
 
 ARG distro=ubuntu:bionic
 ARG pyversion=3.7.0
@@ -131,5 +131,5 @@ RUN env LANG=C apt-get update -qq -o Acquire::Languages=none \
     && locale-gen --lang "$LANG" \
     && apt-get clean && rm -rf "/var/lib/apt/lists"/*
 COPY --from=builder /opt/python /opt/python
-RUN ln -s /opt/python/bin/* /usr/bin
+RUN ln -s /opt/python/bin/* /usr/local/bin
 ENTRYPOINT ["python3"]
