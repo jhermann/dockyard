@@ -1,0 +1,135 @@
+# Python 3.7 on Bionic (installed via pyenv)
+# ==========================================
+#
+# Download pyenv before building the 1st time
+#   pyenv_version=1.2.7 && wget https://github.com/pyenv/pyenv/archive/v${pyenv_version}.tar.gz
+#
+# Build:
+#   docker build -t biopy3 -t biopy3:3.7 -f Dockerfile.pyenv .
+#
+# 'python-build' docs:
+#   https://github.com/pyenv/pyenv/tree/master/plugins/python-build
+#
+# Sizes:
+#   Full = 314.2 MiB; reduced = 171.4 MiB; reduced (tk) = ??? MiB
+
+ARG distro=ubuntu:bionic
+ARG pyversion=3.7.0
+ARG pyenv_version=1.2.7
+ARG pyenv_url=https://github.com/pyenv/pyenv/archive/v${pyenv_version}.tar.gz
+
+FROM ${distro} AS builder
+
+# Install build dependencies for 'python-build'
+RUN env LANG=C apt-get update -qq -o Acquire::Languages=none \
+    && env LANG=C DEBIAN_FRONTEND=noninteractive apt-get install \
+        -y --no-install-recommends -o Dpkg::Options::=--force-unsafe-io \
+        \
+        build-essential \
+        ca-certificates \
+        curl \
+        llvm \
+        make \
+        wget \
+        xz-utils \
+        \
+        libbz2-dev \
+        libdb-dev \
+        libexpat1-dev \
+        libffi-dev \
+        libgdbm-dev \
+        libncurses5-dev \
+        libncursesw5-dev \
+        libreadline-dev \
+        libsqlite3-dev \
+        libssl-dev \
+        libtar-dev \
+        libtinfo-dev \
+        libxml2-dev \
+        libxmlsec1-dev \
+        libz-dev \
+        libzip-dev \
+        tk-dev \
+        zlib1g-dev \
+        \
+        less \
+        vim \
+    && apt-get clean && rm -rf "/var/lib/apt/lists"/*
+
+# Build selected Python version using 'pyenv'
+ARG pyversion
+ARG pyenv_version
+WORKDIR /opt
+COPY v${pyenv_version}.tar.gz ./
+RUN tar --strip-components=1 -xzf v${pyenv_version}.tar.gz \
+    && export PYENV_ROOT=$PWD \
+    && ( cd plugins/python-build && ./install.sh ) \
+    && mkdir -p python \
+    && { python-build -v ${pyversion} $PWD/python; RC=$?; } \
+    && tail -n33 $(ls -1rt /tmp/*.log | tail -n1) \
+    && echo RC=$RC
+
+# Update Python tools
+RUN /opt/python/bin/python3 -m pip install --no-warn-script-location -U pip \
+    && /opt/python/bin/python3 -m pip install --no-warn-script-location -U setuptools wheel
+
+# Reduce size by removing cruft (lib: 188M → 55M)
+RUN cd python && rm -rf \
+        lib/libpython*.a \
+        lib/python*/config-*-*-linux-gnu \
+        lib/python*/ensurepip \
+        lib/python*/idlelib \
+        lib/python*/lib2to3 \
+        lib/python*/lib-dynload/_tkinter.*.so \
+        lib/python*/pydoc.py \
+        lib/python*/pydoc_data \
+        lib/python*/test \
+        lib/python*/tkinter \
+        lib/python*/turtle.py \
+        lib/python*/turtledemo \
+        lib/python*/__pycache__/pydoc.*.pyc \
+        lib/python*/__pycache__/turtle.*.pyc \
+        lib/python*/__pycache__/*.opt-?.pyc
+
+# Report library dependencies and top-level dir sizes
+RUN find /opt/python/ -name *.so | xargs ldd \
+    | egrep -v '^/opt/py|libc.so|libm.so' | awk '{print $1}' | sort -u \
+    | xargs dpkg -S | cut -f1 -d: | sort -u \
+    && du -sch /opt/python/*
+
+
+# Build runtime image
+FROM ${distro} AS runtime
+ENV LANG=en_US.UTF-8
+RUN env LANG=C apt-get update -qq -o Acquire::Languages=none \
+    && env LANG=C DEBIAN_FRONTEND=noninteractive apt-get install \
+        -yqq --no-install-recommends -o Dpkg::Options::=--force-unsafe-io \
+        \
+        ca-certificates \
+        locales \
+        mime-support \
+        \
+        libbsd0 \
+        libbz2-1.0 \
+        libdb5.3 \
+        libexpat1 \
+        libffi6 \
+        libgdbm5 \
+        libncursesw5 \
+        libpng16-16 \
+        libreadline7 \
+        libsqlite3-0 \
+        libssl1.1 \
+        libtinfo5 \
+        zlib1g \
+#tk     \
+#tk     libtcl8.6 \
+#tk     libtk8.6 \
+#tk     tix \
+#tk     tk8.6-blt2.5 \
+    && echo "$LANG UTF-8" >/etc/locale.gen \
+    && locale-gen --lang "$LANG" \
+    && apt-get clean && rm -rf "/var/lib/apt/lists"/*
+COPY --from=builder /opt/python /opt/python
+RUN ln -s /opt/python/bin/* /usr/bin
+ENTRYPOINT ["python3"]
