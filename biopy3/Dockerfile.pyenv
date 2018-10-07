@@ -2,16 +2,22 @@
 # ==========================================
 #
 # Download pyenv before building the 1st time
-#   pyenv_version=1.2.7 && wget https://github.com/pyenv/pyenv/archive/v${pyenv_version}.tar.gz
+#   pyenv_version=1.2.7 &&
+#       wget https://github.com/pyenv/pyenv/archive/v${pyenv_version}.tar.gz
 #
 # Build:
 #   docker build -t biopy3 -t biopy3:3.7 -f Dockerfile.pyenv .
+#
+# Build (Debian slim):
+#   docker build -t debpy3 -t debpy3:3.7 --build-arg distro=debian:stretch-slim \
+#                -f Dockerfile.pyenv .
 #
 # 'python-build' docs:
 #   https://github.com/pyenv/pyenv/tree/master/plugins/python-build
 #
 # Sizes:
-#   Full = 314.2 MiB; reduced = 171.4 MiB; reduced (tk) = 192.9 MiB
+#   Full = 314.2 MiB; reduced = 171.4 MiB; reduced (tk) = 192.9 MiB;
+#                     reduced (slim) = 139.2 MiB
 
 ARG distro=ubuntu:bionic
 ARG pyversion=3.7.0
@@ -114,7 +120,7 @@ RUN env LANG=C apt-get update -qq -o Acquire::Languages=none \
         libdb5.3 \
         libexpat1 \
         libffi6 \
-        libgdbm5 \
+        $(apt-cache search libgdbm[0-9] | awk '{print $1}') \
         libncursesw5 \
         libpng16-16 \
         libreadline7 \
