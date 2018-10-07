@@ -119,4 +119,36 @@ default Python 3.6 – the resulting image size is 168.9 MiB (i.e. ~40 MiB more)
 That means this is **not** a sensible option compared to images like ``python:3.7-slim-stretch``.
 Also, timely security updates are not guaranteed for the PPA release channel.
 
-**TODO:** Look at other options like Conda, pyenv, or PyRun.
+
+Python 3.7 (pyenv)
+------------------
+
+To build images for Python 3.7 and up, compiled and installed using `pyenv`_,
+run these commands:
+
+.. code-block:: shell
+
+    command cd $(git rev-parse --show-toplevel)/biopy3
+    pyversion=$(grep ARG.pyversion= Dockerfile.pyenv | cut -f2 -d= | cut -f1-2 -d.)
+    pyenv_version=$(grep ARG.pyenv_version= Dockerfile.pyenv | cut -f2 -d=)
+    wget https://github.com/pyenv/pyenv/archive/v${pyenv_version}.tar.gz
+    ./make-pyenv-tk.sh >/dev/null
+
+    declare -A base_images=( [biopy3]="ubuntu:bionic" [debpy3]="debian:stretch-slim" )
+    for tag in "${!base_images[@]}"; do
+        docker build --build-argument distro="${base_images[$tag]}" \
+                     -t ${tag} -t ${tag}:$pyversion -f Dockerfile.pyenv .
+        docker build --build-argument distro="${base_images[$tag]}" \
+                     -t ${tag}-tk -t ${tag}-tk:$pyversion -f Dockerfile.pyenv-tk .
+    done
+
+See the comments at the start of ``Dockerfile.pyenv`` for some more details
+and resulting image sizes.
+
+
+.. _`pyenv`: https://github.com/pyenv/pyenv
+
+
+.. admonition:: TODO
+
+    Look at other options like Conda or PyRun.
