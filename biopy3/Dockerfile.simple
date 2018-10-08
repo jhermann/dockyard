@@ -1,5 +1,16 @@
 # docker build -t biopy3-simple -f Dockerfile.simple .
+#
+# A simple image using Ubuntu Bionic and its default Python 3 package.
+
 FROM ubuntu:bionic
+LABEL maintainer="Juergen Hermann <jh@web.de>"
+# http://label-schema.org/
+LABEL org.label-schema.schema-version="1.0"
+LABEL org.label-schema.name="biopy3-simple"
+LABEL org.label-schema.description="Python3 Base Images Using Ubuntu Bionic"
+LABEL org.label-schema.url="https://dockyard.readthedocs.io/en/latest/python-images.html#biopy3"
+LABEL org.label-schema.vcs-url="https://github.com/jhermann/dockyard.git"
+
 ENV LANG=en_US.UTF-8
 RUN env LANG=C apt-get update -qq \
     && env LANG=C DEBIAN_FRONTEND=noninteractive apt-get install -yqq \

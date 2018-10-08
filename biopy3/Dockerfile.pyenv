@@ -6,10 +6,10 @@
 #       wget https://github.com/pyenv/pyenv/archive/v${pyenv_version}.tar.gz
 #
 # Build:
-#   docker build -t biopy3 -t biopy3:3.7 -f Dockerfile.pyenv .
+#   docker build -t biopyenv3 -t biopyenv3:3.7 -f Dockerfile.pyenv .
 #
 # Build (Debian slim):
-#   docker build -t debpy3 -t debpy3:3.7 --build-arg distro=debian:stretch-slim \
+#   docker build -t debpyenv3 -t debpyenv3:3.7 --build-arg distro=debian:stretch-slim \
 #                -f Dockerfile.pyenv .
 #
 # 'python-build' docs:
@@ -106,6 +106,14 @@ RUN find /opt/python/ -name *.so | xargs ldd \
 
 # Build runtime image
 FROM ${distro} AS runtime
+LABEL maintainer="Juergen Hermann <jh@web.de>"
+# http://label-schema.org/
+LABEL org.label-schema.schema-version="1.0"
+LABEL org.label-schema.name="biopyenv3"
+LABEL org.label-schema.description="Python3 Base Images Using Ubuntu Bionic"
+LABEL org.label-schema.url="https://dockyard.readthedocs.io/en/latest/python-images.html#biopy3"
+LABEL org.label-schema.vcs-url="https://github.com/jhermann/dockyard.git"
+
 ENV LANG=en_US.UTF-8
 RUN env LANG=C apt-get update -qq -o Acquire::Languages=none \
     && env LANG=C DEBIAN_FRONTEND=noninteractive apt-get install \

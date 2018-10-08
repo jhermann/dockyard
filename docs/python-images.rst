@@ -134,7 +134,7 @@ run these commands:
     wget https://github.com/pyenv/pyenv/archive/v${pyenv_version}.tar.gz
     ./make-pyenv-tk.sh >/dev/null
 
-    declare -A base_images=( [biopy3]="ubuntu:bionic" [debpy3]="debian:stretch-slim" )
+    declare -A base_images=( [biopyenv3]="ubuntu:bionic" [debpyenv3]="debian:stretch-slim" )
     for tag in "${!base_images[@]}"; do
         docker build --build-argument distro="${base_images[$tag]}" \
                      -t ${tag} -t ${tag}:$pyversion -f Dockerfile.pyenv .
