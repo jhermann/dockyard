@@ -108,6 +108,7 @@ Here are the objectives for each of the changes as shown above:
 And the ``env LANG=C`` before the ``apt-get`` commands suppresses locale
 initialization warnings since locales are not generated yet.
 
+
 Python 3.7 (Deadsnakes PPA)
 ---------------------------
 
@@ -118,6 +119,20 @@ Due to packaging mechanics, this gets installed in addition to Ubuntu's
 default Python 3.6 – the resulting image size is 168.9 MiB (i.e. ~40 MiB more).
 That means this is **not** a sensible option compared to images like ``python:3.7-slim-stretch``.
 Also, timely security updates are not guaranteed for the PPA release channel.
+
+Note that for the ``pip`` installation via ``get-pip.py``,
+the command ``set -o pipefail`` is used to ensure the build fails if ``wget`` fails.
+That in turn requires using the ``SHELL`` instruction to switch teh default shell
+form ``dash``, which does not implement ``set -o``, to `?`bas`` which supports that option.
+
+.. code-block:: docker
+
+    SHELL ["/bin/bash", "-c"]
+    …
+    RUN …
+        && set -o pipefail \
+        && wget -qO- https://bootstrap.pypa.io/get-pip.py | python3.7 \
+        …
 
 
 Python 3.7 (pyenv)
