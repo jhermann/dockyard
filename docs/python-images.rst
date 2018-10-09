@@ -122,8 +122,9 @@ Also, timely security updates are not guaranteed for the PPA release channel.
 
 Note that for the ``pip`` installation via ``get-pip.py``,
 the command ``set -o pipefail`` is used to ensure the build fails if ``wget`` fails.
-That in turn requires using the ``SHELL`` instruction to switch teh default shell
-form ``dash``, which does not implement ``set -o``, to `?`bas`` which supports that option.
+That in turn requires using the ``SHELL`` instruction to switch the default shell
+from ``dash``, which does not implement ``set -o`` shell options,
+to ``bash`` which supports that option.
 
 .. code-block:: docker
 
