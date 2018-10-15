@@ -1,19 +1,25 @@
 # Python 3 image based on minimal Alpine image
 #
-# This is 11.7 MB smaller than python:3.6-alpine
+# This is 17.4 MB smaller than python:3.6-alpine (hmmm, why?)
 #
+# Docs:
+#   http://gliderlabs.viewdocs.io/docker-alpine/
+#
+# Commands:
 #   docker build -t alpy3 -t alpy3:$(git describe --tags) -f Dockerfile.alpine .
 #   docker run --rm -it alpy3
 
-FROM gliderlabs/alpine
+FROM alpine
 LABEL maintainer="Juergen Hermann <jh@web.de>"
 # http://label-schema.org/
 LABEL org.label-schema.schema-version="1.0"
 LABEL org.label-schema.name="alpy3"
-LABEL org.label-schema.description="Python3 Base Image Using Gliderlabs Alpine"
+LABEL org.label-schema.description="Python3 Base Image Using Alpine"
 LABEL org.label-schema.url="https://dockyard.readthedocs.io/en/latest/python-images.html#biopy3"
 LABEL org.label-schema.vcs-url="https://github.com/jhermann/dockyard.git"
-
 ENV LANG=en_US.UTF-8
-RUN apk --update add --no-cache ca-certificates python3
+
+# Install Python3 and immediately do in-place tooling updates, in the same layer
+RUN apk --update --no-cache add ca-certificates python3 \
+    && python3 -m pip install --no-cache-dir -U pip setuptools wheel
 ENTRYPOINT ["python3"]
