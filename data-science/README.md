@@ -21,6 +21,12 @@ To start the wheel builder, use this command:
     docker build --build-arg "UID=$(id -u)" -t alpyne3ds-builder -f Dockerfile.builder . \
     && docker run --rm -it --mount type=bind,src=$PWD/.pip-cache,dst=/build/pip-cache alpyne3ds-builder
 
+To use a local repository (PyPI mirror), add ``--env-file pip.env`` to the ``docker run`` call,
+and create the ``pip.env`` file as follows:
+
+    PIP_TRUSTED_HOST=devpi.local
+    PIP_INDEX_URL=http://devpi.local:31415/root/pypi/+simple/
+
 Build dependencies needed for compiling the extension packages
 are installed in the ``apk`` call within ``Dockerfile.builder``.
 You might need to adapt them when you add more dependencies

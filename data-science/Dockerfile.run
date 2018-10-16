@@ -46,10 +46,15 @@ LABEL org.label-schema.vcs-url="https://github.com/jhermann/dockyard.git"
 RUN apk --update --no-cache add \
         ca-certificates \
         freetype \
+        libjpeg \
         libpng \
         libzmq \
         openblas \
         python3
+#       hdf5
+#       ffmpeg
+#       nodejs + jupyterlab
+
 COPY --from=alpyne3ds-installer /usr/bin/ /usr/bin/
 COPY --from=alpyne3ds-installer /usr/lib/python3.6/site-packages/ /usr/lib/python3.6/site-packages/
 COPY --from=alpyne3ds-installer /usr/share/jupyter/ /usr/share/jupyter/

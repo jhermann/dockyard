@@ -2,6 +2,8 @@
 #
 # Helper script to build wheels ONCE
 
+set -e
+
 pip_cache="/build/pip-cache"
 wheel_dir="$pip_cache/repo"
 

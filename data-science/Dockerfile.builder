@@ -25,10 +25,13 @@ WORKDIR /build
 RUN apk --update --no-cache add \
         build-base \
         freetype-dev \
+        jpeg-dev \
         libpng-dev \
+        llvm-dev \
         openblas-dev \
         python3-dev \
         sudo
+        # TESTING libhdf5-dev \
 # lapack-dev seems to be part of openblas-dev
 
 RUN adduser -h $PWD -G users -H -D -u ${UID} maintainer \
