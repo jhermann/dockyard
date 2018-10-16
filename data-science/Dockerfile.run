@@ -8,7 +8,7 @@
 #   docker run --rm -it --entrypoint sh alpyne3ds -c "du -sch /usr/lib/python3*/site-packages/* | egrep '[0-9]M' | sort -g"
 #   docker run --rm -it alpyne3ds
 #
-#   docker run --rm -it --expose 8888 -p 8888:8888 --entrypoint jupyter alpyne3ds notebook --ip=127.0.0.1 --allow-root
+#   docker run --rm -it --expose 8888 -p 8888:8888 --entrypoint jupyter alpyne3ds notebook --ip=0.0.0.0 --allow-root
 #
 # The resulting image has 714.4 MB.
 # For perspective, jupyter/scipy-notebook comes in at 4.7 GB!
