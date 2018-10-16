@@ -10,7 +10,7 @@
 #
 #   docker run --rm -it --expose 8888 -p 8888:8888 --entrypoint jupyter alpyne3ds notebook --ip=0.0.0.0 --allow-root
 #
-# The resulting image has 714.4 MB.
+# The resulting image has 753.1 MB.
 # For perspective, jupyter/scipy-notebook comes in at 4.7 GB!
 # Although right now, dependency lists still differ somewhat.
 
@@ -43,23 +43,28 @@ LABEL org.label-schema.description="Python3 Data Science Image Using Alpine"
 LABEL org.label-schema.url="https://github.com/jhermann/dockyard/blob/master/data-science/README.md"
 LABEL org.label-schema.vcs-url="https://github.com/jhermann/dockyard.git"
 
-RUN apk --update --no-cache add \
-        ca-certificates \
-        freetype \
-        libjpeg \
-        libpng \
-        libzmq \
-        openblas \
-        python3
-#       hdf5
-#       ffmpeg
-#       nodejs + jupyterlab
-
+COPY --from=alpyne3ds-installer /usr/lib/python3.6/site-packages/ /usr/lib/python3.6/site-packages/
 COPY --from=alpyne3ds-installer /usr/bin/ /usr/bin/
 COPY --from=alpyne3ds-installer /usr/etc/jupyter /etc/jupyter
-COPY --from=alpyne3ds-installer /usr/lib/python3.6/site-packages/ /usr/lib/python3.6/site-packages/
 COPY --from=alpyne3ds-installer /usr/share/doc/networkx-2.2 /usr/share/doc/networkx-2.2
 COPY --from=alpyne3ds-installer /usr/share/jupyter/ /usr/share/jupyter/
 COPY --from=alpyne3ds-installer /usr/share/man/man1/ipython.1.gz /usr/share/man/man1/ipython.1.gz
 COPY --from=alpyne3ds-installer /usr/share/man/man1/isympy.1 /usr/share/man/man1/isympy.1
+
+RUN apk --update --no-cache add \
+        ca-certificates \
+        freetype \
+        git \
+        libjpeg \
+        libpng \
+        libzmq \
+        openblas \
+        python3 \
+        vim \
+        ;
+#       hdf5
+#       ffmpeg
+#       nodejs + jupyterlab
+
+WORKDIR /srv
 ENTRYPOINT ["python3"]
