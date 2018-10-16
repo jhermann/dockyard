@@ -4,7 +4,7 @@
 # https://github.com/jupyter/docker-stacks/blob/master/minimal-notebook/Dockerfile
 # https://github.com/jupyter/docker-stacks/blob/master/scipy-notebook/Dockerfile
 
-beautifulsoup4>=4.6
+beautifulsoup4==4.6.3
 cloudpickle==0.6.1
 cython==0.29
 dill==0.2.8.2
