@@ -1,0 +1,57 @@
+# Python 3 Data Science image based on minimal Alpine image
+#
+# Commands:
+#   docker build --target alpyne3ds-installer -t alpyne3ds-installer -f Dockerfile.run .
+#   docker run --rm -it --entrypoint sh alpyne3ds-installer -c "find /usr -maxdepth 4 -type d -newer /root/build-stamp | grep -v dist-info | sort"
+#
+#   docker build --target alpyne3ds -t alpyne3ds -t alpyne3ds:$(git describe --tags) -f Dockerfile.run .
+#   docker run --rm -it --entrypoint sh alpyne3ds -c "du -sch /usr/lib/python3*/site-packages/* | egrep '[0-9]M' | sort -g"
+#   docker run --rm -it alpyne3ds
+#
+#   docker run --rm -it --expose 8888 -p 8888:8888 --entrypoint jupyter alpyne3ds notebook --ip=127.0.0.1 --allow-root
+#
+# The resulting image has 417.9 MB.
+# For perspective, jupyter/scipy-notebook comes in at 4.7 GB!
+# Although right now, dependency lists still differ.
+
+
+# ~~~ Installer for Data Science Stack ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+FROM alpine AS alpyne3ds-installer
+ENV LANG=en_US.UTF-8
+# Install Python3 and immediately do in-place tooling updates, in the same layer
+RUN apk --update --no-cache add ca-certificates python3 \
+    && python3 -m pip install --no-cache-dir -U pip setuptools wheel \
+    && touch /root/build-stamp
+
+WORKDIR /install
+COPY .pip-cache/ pip-cache/
+RUN python3 -m pip install --cache-dir=/install/pip-cache /install/pip-cache/repo/*.whl
+
+# Remove install tooling, but keep "pkg_resources"; since the runtime image
+# copies the 'site-packages' dir, this actually reduces its size!
+RUN python3 -m pip uninstall -y pip wheel \
+    && rm -rf /usr/lib/python3*/site-packages/setuptools* \
+              /usr/lib/python3*/site-packages/easy_install*
+
+# ~~~ Data Science Stack Image ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+FROM alpine AS alpyne3ds
+LABEL maintainer="Juergen Hermann <jh@web.de>"
+# http://label-schema.org/
+LABEL org.label-schema.schema-version="1.0"
+LABEL org.label-schema.name="alpyne3ds"
+LABEL org.label-schema.description="Python3 Data Science Image Using Alpine"
+LABEL org.label-schema.url="https://github.com/jhermann/dockyard/blob/master/data-science/README.md"
+LABEL org.label-schema.vcs-url="https://github.com/jhermann/dockyard.git"
+
+RUN apk --update --no-cache add \
+        ca-certificates \
+        freetype \
+        libpng \
+        libzmq \
+        openblas \
+        python3
+COPY --from=alpyne3ds-installer /usr/bin/ /usr/bin/
+COPY --from=alpyne3ds-installer /usr/lib/python3.6/site-packages/ /usr/lib/python3.6/site-packages/
+COPY --from=alpyne3ds-installer /usr/share/jupyter/ /usr/share/jupyter/
+COPY --from=alpyne3ds-installer /usr/share/man/man1/ipython.1.gz /usr/share/man/man1/ipython.1.gz
+ENTRYPOINT ["python3"]
