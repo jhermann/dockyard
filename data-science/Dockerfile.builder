@@ -30,7 +30,8 @@ RUN apk --update --no-cache add \
         llvm-dev \
         openblas-dev \
         python3-dev \
-        sudo
+        sudo \
+        ;
         # TESTING libhdf5-dev \
 # lapack-dev seems to be part of openblas-dev
 
