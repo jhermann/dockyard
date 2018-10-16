@@ -10,7 +10,7 @@ The ``build-wheels.sh`` script helps with a quirk of SciPy,
 which won't build unless NumPy is installed first
 (the ``numpy`` package is imported in its ``setup.py``).
 It is called as the build container's entry point,
-and download or creates all wheels referenced directly or
+and downloads or creates all wheels referenced directly or
 indirectly by ``requirements.txt``, writing them into the
 ``.pip-cache/repo`` directory that is mounted into the builder.
 That means wheels already built are kept in the host's file system,
