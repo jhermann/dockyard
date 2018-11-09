@@ -14,6 +14,8 @@ protobuf==3.6.1
 SQLAlchemy==1.2.12
 vincent==0.4.4
 xlrd==1.1.0
+# TODO: fastparquet
+# TODO: pyarrow
 
 # With Alpine "testing" only
 #h5py==2.8.0
@@ -36,6 +38,7 @@ scikit-learn==0.20.0
 seaborn==0.9.0
 bokeh==0.12.16
 altair==2.2.2
+pycuda==2018.1.1
 
 # This cannot be upgraded for Alpine 3.8 (fits to LLVM 5.x)
 llvmlite==0.22.0
