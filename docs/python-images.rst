@@ -33,6 +33,7 @@ The `Docker "Official Images"`_ for Python 3 based on ``debian:stretch-slim`` (5
 Namely, ``python:3.6-slim-stretch`` comes in at 137.9 MiB,
 while Python 3.7 is a little bigger at 142.7 MiB.
 The ones based on Alpine have 74.2 MiB and 78.1 MiB.
+Google's *distroless* ``gcr.io/distroless/python3`` beats that with 51 MiB.
 
 The Dockerfiles and related sources for the images can be found at `docker-library/python`_.
 
