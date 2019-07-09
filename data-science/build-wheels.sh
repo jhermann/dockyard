@@ -18,5 +18,5 @@ pip_wheel() {
 sed -ne '1,/need NumPy/p' requirements.txt >no-numpy.txt
 pip_wheel -r no-numpy.txt
 # SciPy's "setup.py" needs numpy installed!
-sudo python3 -m pip install --no-cache --find-links "$wheel_dir" numpy
+sudo python3 -m pip install --no-cache --find-links "$wheel_dir" numpy Cython
 pip_wheel -r requirements.txt
