@@ -27,10 +27,12 @@ RUN apk --update --no-cache add \
         freetype-dev \
         jpeg-dev \
         libpng-dev \
+        linux-headers \
         llvm-dev \
         openblas-dev \
         python3-dev \
         sudo \
+        zeromq-dev \
         ;
         # TESTING libhdf5-dev \
 # lapack-dev seems to be part of openblas-dev
