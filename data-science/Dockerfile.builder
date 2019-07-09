@@ -34,6 +34,7 @@ RUN apk --update --no-cache add \
         sudo \
         zeromq-dev \
         ;
+        # nvidia-cuda-dev \ (DEB only)
         # TESTING libhdf5-dev \
 # lapack-dev seems to be part of openblas-dev
 

@@ -4,16 +4,16 @@
 # https://github.com/jupyter/docker-stacks/blob/master/minimal-notebook/Dockerfile
 # https://github.com/jupyter/docker-stacks/blob/master/scipy-notebook/Dockerfile
 
-beautifulsoup4==4.6.3
-cloudpickle==0.6.1
-cython==0.29
-dill==0.2.8.2
-ipywidgets==7.4.2
-patsy==0.5.0
-protobuf==3.6.1
-SQLAlchemy==1.2.12
+beautifulsoup4==4.7.1
+cloudpickle==1.2.1
+Cython==0.29.12
+dill==0.3.0
+ipywidgets==7.5.0
+patsy==0.5.1
+protobuf==3.8.0
+SQLAlchemy==1.3.5
 vincent==0.4.4
-xlrd==1.1.0
+xlrd==1.2.0
 # TODO: fastparquet
 # TODO: pyarrow
 # bayesian-optimization
@@ -25,22 +25,22 @@ xlrd==1.1.0
 #hdf5widget==0.1.0
 
 numpy==1.15.2
-sympy==1.3
-pandas==0.23.4
-notebook==5.7.2
-matplotlib==3.0.0
+sympy==1.4
+pandas==0.24.2
+notebook==5.7.8
+matplotlib==3.1.1
 
 # need NumPy installed
-scipy==1.1.0
-numexpr==2.6.8
-statsmodels==0.9.0
-scikit-image==0.14.1
-scikit-learn==0.20.0
+scipy==1.3.0
+numexpr==2.6.9
+statsmodels==0.10.0
+scikit-image==0.15.0
+scikit-learn==0.21.2
 seaborn==0.9.0
-bokeh==0.12.16
-altair==2.2.2
-pycuda==2018.1.1
+bokeh==1.2.0
+altair==3.1.0
+##pycuda==2019.1 (no Alpine package for CUDA dev files)
 
 # This cannot be upgraded for Alpine 3.8 (fits to LLVM 5.x)
-llvmlite==0.22.0
-numba==0.36.2
+llvmlite==0.29.0
+numba==0.44.1
