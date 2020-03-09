@@ -57,6 +57,7 @@ Documentation Contents
     :maxdepth: 2
     :caption: Base Images
 
+    docker-basics
     python-images
 
 
