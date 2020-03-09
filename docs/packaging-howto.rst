@@ -40,6 +40,23 @@ the given platform and existing project metadata is stored into a bunch of varia
 
 .. literalinclude:: ../dh-virtualenv/build.sh
     :language: shell
+    :end-before: Create Docker staging
+
+On Ubuntu, the Deadsnakes packages are used, thus the
+default of the ``PYVERSION`` Docker argument is replaced.
+Since the ``control`` file contains that more detailed version,
+the reverse is done for Debian builds – ``3.x`` is replaced by just ``3``.
+
+To keep this and other possible changes out of git's reach,
+a staging copy of the workdir is created via ``sdist``
+– adding ``-k`` keeps the expanded distribution tree intact, so we can change
+and finally move it to ``build/docker.staging``.
+Creating that copy based on a source distribution also tests that
+such a distribution is complete and buildable, as a welcome side-effect.
+
+.. literalinclude:: ../dh-virtualenv/build.sh
+    :language: shell
+    :start-at: Create Docker staging
     :end-before: Build in Docker
 
 After that prep work, we get to build our package, passing along the needed build arguments.
@@ -50,7 +67,6 @@ Also the package metadata is shown for a quick visual check if everything looks 
 .. literalinclude:: ../dh-virtualenv/build.sh
     :language: shell
     :start-at: Build in Docker
-
 
 .. rubric:: The Dockerfile
 
