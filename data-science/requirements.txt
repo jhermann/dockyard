@@ -24,7 +24,7 @@ xlrd==1.2.0
 #hdf5storage==0.1.15
 #hdf5widget==0.1.0
 
-numpy==1.15.2
+numpy==1.22.0
 sympy==1.4
 pandas==0.24.2
 notebook==5.7.8
